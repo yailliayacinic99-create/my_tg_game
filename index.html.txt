@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Oracle</title>
+    <!-- Подключаем скрипт Телеграма -->
+    <script src="https://telegram.org"></script>
+    <style>
+        body { background: #1a1a1a; color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        #price { font-size: 48px; margin: 20px 0; color: #00ff00; }
+        .btn { padding: 15px 30px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; margin: 10px; color: white; }
+        #up { background: #2ecc71; }
+        #down { background: #e74c3c; }
+        #balance { font-size: 20px; color: #f1c40f; }
+    </style>
+</head>
+<body>
+    <div id="balance">Монеты: 100</div>
+    <div style="margin-top: 50px;">Цена Дурова:</div>
+    <div id="price">100.00</div>
+    <button id="up" class="btn" onclick="makeBet('up')">ВВЕРХ</button>
+    <button id="down" class="btn" onclick="makeBet('down')">ВНИЗ</button>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на весь экран
+
+        let price = 100;
+        let balance = 100;
+
+        // Логика изменения цены
+        setInterval(() => {
+            let change = (Math.random() - 0.5) * 2;
+            price += change;
+            document.getElementById('price').innerText = price.toFixed(2);
+        }, 1000);
+
+        function makeBet(type) {
+            let oldPrice = price;
+            tg.HapticFeedback.impactOccurred('medium'); // Вибрация при клике
+            
+            setTimeout(() => {
+                if ((type === 'up' && price > oldPrice) || (type === 'down' && price < oldPrice)) {
+                    balance += 10;
+                    alert("Угадал! +10 монет");
+                } else {
+                    balance -= 10;
+                    alert("Промазал!");
+                }
+                document.getElementById('balance').innerText = "Монеты: " + balance;
+            }, 3000); // Результат через 3 секунды
+        }
+    </script>
+</body>
+</html>
