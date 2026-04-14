@@ -1,3 +1,6 @@
+let tg = window.Telegram.WebApp;
+let name = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "Игрок";
+document.getElementById('balance').innerText = "Привет, " + name + "! Монеты: 100";
 <!DOCTYPE html>
 <html>
 <head>
